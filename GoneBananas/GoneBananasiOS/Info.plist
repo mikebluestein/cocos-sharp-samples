@@ -17,7 +17,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>GoneBananas</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.xamarin.gonebananas</string>
+	<string>com.mikebluestein.GoneBananas</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>XSAppIconAssets</key>

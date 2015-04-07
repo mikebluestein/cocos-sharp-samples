@@ -25,6 +25,9 @@
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <MtouchProfiling>true</MtouchProfiling>
+    <CodesignProvision>06e2fcf9-900c-4e9c-a00e-fa20412bb432</CodesignProvision>
+    <CodesignKey>iPhone Developer: Michael Bluestein (P4MRTUSNBU)</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -48,8 +51,12 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchProfiling>true</MtouchProfiling>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Michael Bluestein (P4MRTUSNBU)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignProvision>06e2fcf9-900c-4e9c-a00e-fa20412bb432</CodesignProvision>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchI18n>
+    </MtouchI18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -119,4 +126,15 @@
     <BundleResource Include="PushNotificationPayload.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.AppExtension.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\WormHoleSharp\WormHoleSharp.csproj">
+      <Project>{B34F9D50-11B7-429E-8AE4-BC2AA61F1519}</Project>
+      <Name>WormHoleSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WatchKitApp\WatchKitApp.csproj">
+      <Project>{F02439AC-9D1E-47E5-AFDF-66D3D4BD57EF}</Project>
+      <Name>WatchKitApp</Name>
+      <IsWatchApp>True</IsWatchApp>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

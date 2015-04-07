@@ -8,355 +8,394 @@ using Box2D.Common;
 using Box2D.Dynamics;
 using Box2D.Collision.Shapes;
 
+#if IOS
+using WormHoleSharp;
+#endif
+
 namespace GoneBananas
 {
-    public class GameLayer : CCLayerColor
-    {
-        const float MONKEY_SPEED = 350.0f;
-        const float GAME_DURATION = 60.0f; // game ends after 60 seconds or when the monkey hits a ball, whichever comes first
-        const int MAX_NUM_BALLS = 10;
+	public class GameLayer : CCLayerColor
+	{
+		const float MONKEY_SPEED = 350.0f;
+		const float GAME_DURATION = 60.0f;
+		// game ends after 60 seconds or when the monkey hits a ball, whichever comes first
+		const int MAX_NUM_BALLS = 10;
 
-        // point to meter ratio for physics
-        const int PTM_RATIO = 32;
+		// point to meter ratio for physics
+		const int PTM_RATIO = 32;
 
-        float elapsedTime;
-        CCSprite monkey;
-        List<CCSprite> visibleBananas;
-        List<CCSprite> hitBananas;
+		float elapsedTime;
+		CCSprite monkey;
+		List<CCSprite> visibleBananas;
+		List<CCSprite> hitBananas;
 
-        // monkey walking animation
-        CCAnimation walkAnim;
-        CCRepeatForever walkRepeat;
-        CCCallFuncN walkAnimStop = new CCCallFuncN (node => node.StopAllActions ());
+		// monkey walking animation
+		CCAnimation walkAnim;
+		CCRepeatForever walkRepeat;
+		CCCallFuncN walkAnimStop = new CCCallFuncN (node => node.StopAllActions ());
 
-        // background sprite
-        CCSprite grass;
+		// background sprite
+		CCSprite grass;
 
-        // particles
-        CCParticleSun sun;
+		// particles
+		CCParticleSun sun;
 
-        // circle layered behind sun
-        CCDrawNode circleNode;
+		// circle layered behind sun
+		CCDrawNode circleNode;
 
-        // parallax node for clouds
-        CCParallaxNode parallaxClouds;
+		// parallax node for clouds
+		CCParallaxNode parallaxClouds;
             
-        // define our banana rotation action
-        CCRotateBy rotateBanana = new CCRotateBy (0.8f, 360);
+		// define our banana rotation action
+		CCRotateBy rotateBanana = new CCRotateBy (0.8f, 360);
 
-        // define our completion action to remove the banana once it hits the bottom of the screen
-        CCCallFuncN moveBananaComplete = new CCCallFuncN (node => node.RemoveFromParent ());
+		// define our completion action to remove the banana once it hits the bottom of the screen
+		CCCallFuncN moveBananaComplete = new CCCallFuncN (node => node.RemoveFromParent ());
 
-        // physics world
-        b2World world;
+		// physics world
+		b2World world;
         
-        // balls sprite batch
-        CCSpriteBatchNode ballsBatch;
-        CCTexture2D ballTexture;
+		// balls sprite batch
+		CCSpriteBatchNode ballsBatch;
+		CCTexture2D ballTexture;
+		#if IOS
+		Wormhole wormhole;
+		#endif
+		public GameLayer ()
+		{
+			var touchListener = new CCEventListenerTouchAllAtOnce ();
+			touchListener.OnTouchesEnded = OnTouchesEnded;
+			       
+			AddEventListener (touchListener, this);
+			Color = new CCColor3B (CCColor4B.White);
+			Opacity = 255;
 
-        public GameLayer ()
-        {
-            var touchListener = new CCEventListenerTouchAllAtOnce ();
-            touchListener.OnTouchesEnded = OnTouchesEnded;
+			visibleBananas = new List<CCSprite> ();
+			hitBananas = new List<CCSprite> ();
 
-            AddEventListener (touchListener, this);
-            Color = new CCColor3B (CCColor4B.White);
-            Opacity = 255;
-
-            visibleBananas = new List<CCSprite> ();
-            hitBananas = new List<CCSprite> ();
-
-            // batch node for physics balls
-            ballsBatch = new CCSpriteBatchNode ("balls", 100);
-            ballTexture = ballsBatch.Texture;
-            AddChild (ballsBatch, 1, 1);
+			// batch node for physics balls
+			ballsBatch = new CCSpriteBatchNode ("balls", 100);
+			ballTexture = ballsBatch.Texture;
+			AddChild (ballsBatch, 1, 1);
 	
-            AddGrass ();
-            AddSun ();
-            AddMonkey ();
+			AddGrass ();
+			AddSun ();
+			AddMonkey ();
 
-            StartScheduling();
+			StartScheduling ();
 
-            CCSimpleAudioEngine.SharedEngine.PlayBackgroundMusic ("Sounds/backgroundMusic", true);
-        }
+			CCSimpleAudioEngine.SharedEngine.PlayBackgroundMusic ("Sounds/backgroundMusic", true);
 
-        void StartScheduling()
-        {
-            Schedule (t => {
-                visibleBananas.Add (AddBanana ());
-                elapsedTime += t;
-                if (ShouldEndGame ()) {
-                    EndGame ();
-                }
-                AddBall ();
-            }, 1.0f);
+#if IOS
+			wormhole = new Wormhole ("group.com.mikebluestein.GoneBananas", "messageDir");
+			wormhole.ListenForMessage<int> ("dpad", (message) => {
 
-            Schedule (t => CheckCollision ());
+				CCPoint ds;
 
-            Schedule (t => {
-                world.Step (t, 8, 1);
+				float delta = 25.0f;
 
-                foreach (CCPhysicsSprite sprite in ballsBatch.Children) {
-                    if (sprite.Visible && sprite.PhysicsBody.Position.x < 0f || sprite.PhysicsBody.Position.x * PTM_RATIO > ContentSize.Width) { //or should it be Layer.VisibleBoundsWorldspace.Size.Width
-                        world.DestroyBody (sprite.PhysicsBody);
-                        sprite.Visible = false;
-                        sprite.RemoveFromParent ();
-                    } else {
-                        sprite.UpdateBallTransform();
-                    }
-                }
-            });
-        }
+				switch (message) {
+				case 1: //right
+					ds = new CCPoint (delta, 0);
+					break;
+				case 2: //left
+					ds = new CCPoint (-delta, 0);
+					break;
+				case 3: //up
+					ds = new CCPoint (0, delta);
+					break;
+				case 4: //down
+					ds = new CCPoint (0, -delta);
+					break;
+				default:
+					ds = new CCPoint ();
+					break;
+				}
+			
+				var dt = 25.0f / MONKEY_SPEED;
 
-        void AddGrass ()
-        {
-            grass = new CCSprite ("grass");
-            AddChild (grass);
-        }
+				var moveMonkey = new CCMoveBy (dt, ds);
 
-        void AddSun ()
-        {
-            circleNode = new CCDrawNode ();
-            circleNode.DrawSolidCircle (CCPoint.Zero, 30.0f, CCColor4B.Yellow);
-            AddChild (circleNode);
+				monkey.RunAction (walkRepeat);
+				monkey.RunActions (moveMonkey, new CCDelayTime (1.0f), walkAnimStop);
+			});
+#endif
+		}
 
-            sun = new CCParticleSun (CCPoint.Zero);
-            sun.StartColor = new CCColor4F (CCColor3B.Red);
-            sun.EndColor = new CCColor4F (CCColor3B.Yellow);
-            AddChild (sun);
-        }
+		void StartScheduling ()
+		{
+			Schedule (t => {
+				visibleBananas.Add (AddBanana ());
+				elapsedTime += t;
+				if (ShouldEndGame ()) {
+					EndGame ();
+				}
+				AddBall ();
+			}, 1.0f);
 
-        void AddMonkey ()
-        {
-            var spriteSheet = new CCSpriteSheet ("animations/monkey.plist");
-            var animationFrames = spriteSheet.Frames.FindAll ((x) => x.TextureFilename.StartsWith ("frame"));
+			Schedule (t => CheckCollision ());
 
-            walkAnim = new CCAnimation (animationFrames, 0.1f);
-            walkRepeat = new CCRepeatForever (new CCAnimate (walkAnim));
-            monkey = new CCSprite (animationFrames.First ()) { Name = "Monkey" };
-            monkey.Scale = 0.25f;
+			Schedule (t => {
+				world.Step (t, 8, 1);
 
-            AddChild (monkey);
-        }
+				foreach (CCPhysicsSprite sprite in ballsBatch.Children) {
+					if (sprite.Visible && sprite.PhysicsBody.Position.x < 0f || sprite.PhysicsBody.Position.x * PTM_RATIO > ContentSize.Width) { //or should it be Layer.VisibleBoundsWorldspace.Size.Width
+						world.DestroyBody (sprite.PhysicsBody);
+						sprite.Visible = false;
+						sprite.RemoveFromParent ();
+					} else {
+						sprite.UpdateBallTransform ();
+					}
+				}
+			});
+		}
 
-        CCSprite AddBanana ()
-        {
-            var spriteSheet = new CCSpriteSheet ("animations/monkey.plist");
-            var banana = new CCSprite (spriteSheet.Frames.Find ((x) => x.TextureFilename.StartsWith ("Banana")));
+		void AddGrass ()
+		{
+			grass = new CCSprite ("grass");
+			AddChild (grass);
+		}
 
-            var p = GetRandomPosition (banana.ContentSize);
-            banana.Position = p;
-            banana.Scale = 0.5f;
+		void AddSun ()
+		{
+			circleNode = new CCDrawNode ();
+			circleNode.DrawSolidCircle (CCPoint.Zero, 30.0f, CCColor4B.Yellow);
+			AddChild (circleNode);
 
-            AddChild (banana);
+			sun = new CCParticleSun (CCPoint.Zero);
+			sun.StartColor = new CCColor4F (CCColor3B.Red);
+			sun.EndColor = new CCColor4F (CCColor3B.Yellow);
+			AddChild (sun);
+		}
 
-            var moveBanana = new CCMoveTo (5.0f, new CCPoint (banana.Position.X, 0));
-            banana.RunActions (moveBanana, moveBananaComplete);
-            banana.RepeatForever (rotateBanana);
+		void AddMonkey ()
+		{
+			var spriteSheet = new CCSpriteSheet ("animations/monkey.plist");
+			var animationFrames = spriteSheet.Frames.FindAll ((x) => x.TextureFilename.StartsWith ("frame"));
 
-            return banana;
-        }
+			walkAnim = new CCAnimation (animationFrames, 0.1f);
+			walkRepeat = new CCRepeatForever (new CCAnimate (walkAnim));
+			monkey = new CCSprite (animationFrames.First ()) { Name = "Monkey" };
+			monkey.Scale = 0.25f;
 
-        CCPoint GetRandomPosition (CCSize spriteSize)
-        {
-            double rnd = CCRandom.NextDouble ();
-            double randomX = (rnd > 0) 
+			AddChild (monkey);
+		}
+
+		CCSprite AddBanana ()
+		{
+			var spriteSheet = new CCSpriteSheet ("animations/monkey.plist");
+			var banana = new CCSprite (spriteSheet.Frames.Find ((x) => x.TextureFilename.StartsWith ("Banana")));
+
+			var p = GetRandomPosition (banana.ContentSize);
+			banana.Position = p;
+			banana.Scale = 0.5f;
+
+			AddChild (banana);
+
+			var moveBanana = new CCMoveTo (5.0f, new CCPoint (banana.Position.X, 0));
+			banana.RunActions (moveBanana, moveBananaComplete);
+			banana.RepeatForever (rotateBanana);
+
+			return banana;
+		}
+
+		CCPoint GetRandomPosition (CCSize spriteSize)
+		{
+			double rnd = CCRandom.NextDouble ();
+			double randomX = (rnd > 0) 
                 ? rnd * VisibleBoundsWorldspace.Size.Width - spriteSize.Width / 2 
                 : spriteSize.Width / 2;
 
-            return new CCPoint ((float)randomX, VisibleBoundsWorldspace.Size.Height - spriteSize.Height / 2);
-        }
+			return new CCPoint ((float)randomX, VisibleBoundsWorldspace.Size.Height - spriteSize.Height / 2);
+		}
 
-        void AddClouds ()
-        {
-            float h = VisibleBoundsWorldspace.Size.Height;
+		void AddClouds ()
+		{
+			float h = VisibleBoundsWorldspace.Size.Height;
 
-            parallaxClouds = new CCParallaxNode {
-                Position = new CCPoint (0, h)
-            };
+			parallaxClouds = new CCParallaxNode {
+				Position = new CCPoint (0, h)
+			};
              
-            AddChild (parallaxClouds);
+			AddChild (parallaxClouds);
 
-            var cloud1 = new CCSprite ("cloud");
-            var cloud2 = new CCSprite ("cloud");
-            var cloud3 = new CCSprite ("cloud");
+			var cloud1 = new CCSprite ("cloud");
+			var cloud2 = new CCSprite ("cloud");
+			var cloud3 = new CCSprite ("cloud");
 
-            float yRatio1 = 1.0f;
-            float yRatio2 = 0.15f;
-            float yRatio3 = 0.5f;
+			float yRatio1 = 1.0f;
+			float yRatio2 = 0.15f;
+			float yRatio3 = 0.5f;
 
-            parallaxClouds.AddChild (cloud1, 0, new CCPoint (1.0f, yRatio1), new CCPoint (100, -100 + h - (h * yRatio1)));
-            parallaxClouds.AddChild (cloud2, 0, new CCPoint (1.0f, yRatio2), new CCPoint (250, -200 + h - (h * yRatio2)));
-            parallaxClouds.AddChild (cloud3, 0, new CCPoint (1.0f, yRatio3), new CCPoint (400, -150 + h - (h * yRatio3)));
-        }
+			parallaxClouds.AddChild (cloud1, 0, new CCPoint (1.0f, yRatio1), new CCPoint (100, -100 + h - (h * yRatio1)));
+			parallaxClouds.AddChild (cloud2, 0, new CCPoint (1.0f, yRatio2), new CCPoint (250, -200 + h - (h * yRatio2)));
+			parallaxClouds.AddChild (cloud3, 0, new CCPoint (1.0f, yRatio3), new CCPoint (400, -150 + h - (h * yRatio3)));
+		}
 
-        void MoveClouds (float dy)
-        {
-            parallaxClouds.StopAllActions ();
-            var moveClouds = new CCMoveBy (1.0f, new CCPoint (0, dy * 0.1f));
-            parallaxClouds.RunAction (moveClouds);
-        }
+		void MoveClouds (float dy)
+		{
+			parallaxClouds.StopAllActions ();
+			var moveClouds = new CCMoveBy (1.0f, new CCPoint (0, dy * 0.1f));
+			parallaxClouds.RunAction (moveClouds);
+		}
 
-        void CheckCollision ()
-        {
+		void CheckCollision ()
+		{
 
-            foreach (var banana in visibleBananas)
-            {
-                bool hit = banana.BoundingBoxTransformedToParent.IntersectsRect(monkey.BoundingBoxTransformedToParent);
-                if (hit)
-                {
-                    hitBananas.Add(banana);
-                    CCSimpleAudioEngine.SharedEngine.PlayEffect("Sounds/tap");
-                    Explode(banana.Position);
-                    banana.RemoveFromParent();
-                }
-            }
+			foreach (var banana in visibleBananas) {
+				bool hit = banana.BoundingBoxTransformedToParent.IntersectsRect (monkey.BoundingBoxTransformedToParent);
+				if (hit) {
+					hitBananas.Add (banana);
+					CCSimpleAudioEngine.SharedEngine.PlayEffect ("Sounds/tap");
+					Explode (banana.Position);
+					banana.RemoveFromParent ();
+				}
+			}
 
-            foreach (var banana in hitBananas)
-            {
-                visibleBananas.Remove(banana);
-            }
+			foreach (var banana in hitBananas) {
+				visibleBananas.Remove (banana);
+			}
 
-            int ballHitCount = ballsBatch.Children.Count (ball => ball.BoundingBoxTransformedToParent.IntersectsRect (monkey.BoundingBoxTransformedToParent));
+			int ballHitCount = ballsBatch.Children.Count (ball => ball.BoundingBoxTransformedToParent.IntersectsRect (monkey.BoundingBoxTransformedToParent));
 
-            if (ballHitCount > 0) {
-                EndGame ();
-            }
-        }
+			if (ballHitCount > 0) {
+//                EndGame ();
+			}
+		}
 
-        void EndGame ()
-        {
-            // Stop scheduled events as we transition to game over scene
-            UnscheduleAll();
+		void EndGame ()
+		{
+			// Stop scheduled events as we transition to game over scene
+			UnscheduleAll ();
 
-            var gameOverScene = GameOverLayer.SceneWithScore (Window, hitBananas.Count);
-            var transitionToGameOver = new CCTransitionMoveInR (0.3f, gameOverScene);
+			var gameOverScene = GameOverLayer.SceneWithScore (Window, hitBananas.Count);
+			var transitionToGameOver = new CCTransitionMoveInR (0.3f, gameOverScene);
 
-            Director.ReplaceScene (transitionToGameOver);
-        }
+			Director.ReplaceScene (transitionToGameOver);
+		}
 
-        void Explode (CCPoint pt)
-        {
-            var explosion = new CCParticleExplosion (pt); //TODO: manage "better" for performance when "many" particles
-            explosion.TotalParticles = 10;
-            explosion.AutoRemoveOnFinish = true;
-            AddChild (explosion);
-        }
+		void Explode (CCPoint pt)
+		{
+			var explosion = new CCParticleExplosion (pt); //TODO: manage "better" for performance when "many" particles
+			explosion.TotalParticles = 10;
+			explosion.AutoRemoveOnFinish = true;
+			AddChild (explosion);
+		}
 
-        bool ShouldEndGame ()
-        {
-            return elapsedTime > GAME_DURATION;
-        }
+		bool ShouldEndGame ()
+		{
+			return elapsedTime > GAME_DURATION;
+		}
 
-        void OnTouchesEnded (List<CCTouch> touches, CCEvent touchEvent)
-        {
-            monkey.StopAllActions ();
+		void OnTouchesEnded (List<CCTouch> touches, CCEvent touchEvent)
+		{
+			monkey.StopAllActions ();
 
-            var location = touches [0].LocationOnScreen;
-            location = WorldToScreenspace (location);  //Layer.WorldToScreenspace(location); 
-            float ds = CCPoint.Distance (monkey.Position, location);
+			var location = touches [0].LocationOnScreen;
+			location = WorldToScreenspace (location);  //Layer.WorldToScreenspace(location); 
+			float ds = CCPoint.Distance (monkey.Position, location);
 
-            var dt = ds / MONKEY_SPEED;
+			var dt = ds / MONKEY_SPEED;
 
-            var moveMonkey = new CCMoveTo (dt, location);
+			var moveMonkey = new CCMoveTo (dt, location);
 
-            //BUG: calling walkRepeat separately as it doesn't run when called in RunActions or CCSpawn
-            monkey.RunAction (walkRepeat);
-            monkey.RunActions (moveMonkey, walkAnimStop);
+			//BUG: calling walkRepeat separately as it doesn't run when called in RunActions or CCSpawn
+			monkey.RunAction (walkRepeat);
+			monkey.RunActions (moveMonkey, walkAnimStop);
 
-            // move the clouds relative to the monkey's movement
-            MoveClouds (location.Y - monkey.Position.Y);
-        }
+			// move the clouds relative to the monkey's movement
+			MoveClouds (location.Y - monkey.Position.Y);
+		}
 
-        protected override void AddedToScene ()
-        {
-            base.AddedToScene ();
+		protected override void AddedToScene ()
+		{
+			base.AddedToScene ();
 
-            Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.NoBorder;
+			Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.NoBorder;
 
-            grass.Position = VisibleBoundsWorldspace.Center;
-            monkey.Position = VisibleBoundsWorldspace.Center;
+			grass.Position = VisibleBoundsWorldspace.Center;
+			monkey.Position = VisibleBoundsWorldspace.Center;
 
-            var b = VisibleBoundsWorldspace;
-            sun.Position = b.UpperRight.Offset (-100, -100); //BUG: doesn't appear in visible area on Nexus 7 device
+			var b = VisibleBoundsWorldspace;
+			sun.Position = b.UpperRight.Offset (-100, -100); //BUG: doesn't appear in visible area on Nexus 7 device
 
-            circleNode.Position = sun.Position;
+			circleNode.Position = sun.Position;
 
-            AddClouds ();
-        }
+			AddClouds ();
+		}
 
-        void InitPhysics ()
-        {
-            CCSize s = Layer.VisibleBoundsWorldspace.Size;
+		void InitPhysics ()
+		{
+			CCSize s = Layer.VisibleBoundsWorldspace.Size;
 
-            var gravity = new b2Vec2 (0.0f, -10.0f);
-            world = new b2World (gravity);
+			var gravity = new b2Vec2 (0.0f, -10.0f);
+			world = new b2World (gravity);
 
-            world.SetAllowSleeping (true);
-            world.SetContinuousPhysics (true);
+			world.SetAllowSleeping (true);
+			world.SetContinuousPhysics (true);
 
-            var def = new b2BodyDef ();
-            def.allowSleep = true;
-            def.position = b2Vec2.Zero;
-            def.type = b2BodyType.b2_staticBody;
-            b2Body groundBody = world.CreateBody (def);
-            groundBody.SetActive (true);
+			var def = new b2BodyDef ();
+			def.allowSleep = true;
+			def.position = b2Vec2.Zero;
+			def.type = b2BodyType.b2_staticBody;
+			b2Body groundBody = world.CreateBody (def);
+			groundBody.SetActive (true);
 
-            b2EdgeShape groundBox = new b2EdgeShape ();
-            groundBox.Set (b2Vec2.Zero, new b2Vec2 (s.Width / PTM_RATIO, 0));
-            b2FixtureDef fd = new b2FixtureDef ();
-            fd.shape = groundBox;
-            groundBody.CreateFixture (fd);
-        }
+			b2EdgeShape groundBox = new b2EdgeShape ();
+			groundBox.Set (b2Vec2.Zero, new b2Vec2 (s.Width / PTM_RATIO, 0));
+			b2FixtureDef fd = new b2FixtureDef ();
+			fd.shape = groundBox;
+			groundBody.CreateFixture (fd);
+		}
 
-        void AddBall ()
-        {
-            if (ballsBatch.ChildrenCount < MAX_NUM_BALLS) {
-                int idx = (CCRandom.Float_0_1 () > .5 ? 0 : 1);
-                int idy = (CCRandom.Float_0_1 () > .5 ? 0 : 1);
-                var sprite = new CCPhysicsSprite (ballTexture, new CCRect (32 * idx, 32 * idy, 32, 32), PTM_RATIO);
+		void AddBall ()
+		{
+			if (ballsBatch.ChildrenCount < MAX_NUM_BALLS) {
+				int idx = (CCRandom.Float_0_1 () > .5 ? 0 : 1);
+				int idy = (CCRandom.Float_0_1 () > .5 ? 0 : 1);
+				var sprite = new CCPhysicsSprite (ballTexture, new CCRect (32 * idx, 32 * idy, 32, 32), PTM_RATIO);
 
-                ballsBatch.AddChild (sprite);
+				ballsBatch.AddChild (sprite);
 
-                CCPoint p = GetRandomPosition (sprite.ContentSize);
+				CCPoint p = GetRandomPosition (sprite.ContentSize);
 
-                sprite.Position = new CCPoint (p.X, p.Y);
+				sprite.Position = new CCPoint (p.X, p.Y);
 
-                var def = new b2BodyDef ();
-                def.position = new b2Vec2 (p.X / PTM_RATIO, p.Y / PTM_RATIO);
-                def.linearVelocity = new b2Vec2 (0.0f, -1.0f);
-                def.type = b2BodyType.b2_dynamicBody;
-                b2Body body = world.CreateBody (def);
+				var def = new b2BodyDef ();
+				def.position = new b2Vec2 (p.X / PTM_RATIO, p.Y / PTM_RATIO);
+				def.linearVelocity = new b2Vec2 (0.0f, -1.0f);
+				def.type = b2BodyType.b2_dynamicBody;
+				b2Body body = world.CreateBody (def);
 
-                var circle = new b2CircleShape ();
-                circle.Radius = 0.5f;
+				var circle = new b2CircleShape ();
+				circle.Radius = 0.5f;
 
-                var fd = new b2FixtureDef ();
-                fd.shape = circle;
-                fd.density = 1f;
-                fd.restitution = 0.85f;
-                fd.friction = 0f;
-                body.CreateFixture (fd);
+				var fd = new b2FixtureDef ();
+				fd.shape = circle;
+				fd.density = 1f;
+				fd.restitution = 0.85f;
+				fd.friction = 0f;
+				body.CreateFixture (fd);
 
-                sprite.PhysicsBody = body;
-            }
-        }
+				sprite.PhysicsBody = body;
+			}
+		}
 
-        public override void OnEnter ()
-        {
-            base.OnEnter ();
+		public override void OnEnter ()
+		{
+			base.OnEnter ();
 
-            InitPhysics ();
-        }
+			InitPhysics ();
+		}
 
-        public static CCScene GameScene (CCWindow mainWindow)
-        {
-            var scene = new CCScene (mainWindow);
-            var layer = new GameLayer ();
+		public static CCScene GameScene (CCWindow mainWindow)
+		{
+			var scene = new CCScene (mainWindow);
+			var layer = new GameLayer ();
 			
-            scene.AddChild (layer);
+			scene.AddChild (layer);
 
-            return scene;
-        }
-    }
+			return scene;
+		}
+	}
 }

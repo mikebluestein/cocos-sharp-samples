@@ -2,11 +2,14 @@
 
 using WatchKit;
 using Foundation;
+using WormHoleSharp;
 
 namespace WatchKitExtension
 {
 	public partial class InterfaceController : WKInterfaceController
 	{
+		Wormhole wormHole;
+
 		public InterfaceController (IntPtr handle) : base (handle)
 		{
 		}
@@ -15,20 +18,35 @@ namespace WatchKitExtension
 		{
 			base.Awake (context);
 
-			// Configure interface objects here.
-			Console.WriteLine ("{0} awake with context", this);
+			wormHole = new Wormhole ("group.com.mikebluestein.GoneBananas", "messageDir");
 		}
 
 		public override void WillActivate ()
 		{
-			// This method is called when the watch view controller is about to be visible to the user.
-			Console.WriteLine ("{0} will activate", this);
 		}
 
 		public override void DidDeactivate ()
 		{
-			// This method is called when the watch view controller is no longer visible to the user.
-			Console.WriteLine ("{0} did deactivate", this);
+		}
+
+		partial void OnRight ()
+		{
+			wormHole.PassMessage ("dpad", 1);
+		}
+
+		partial void OnLeft ()
+		{
+			wormHole.PassMessage ("dpad", 2);
+		}
+
+		partial void OnUp ()
+		{
+			wormHole.PassMessage ("dpad", 3);
+		}
+
+		partial void OnDown ()
+		{
+			wormHole.PassMessage ("dpad", 4);
 		}
 	}
 }

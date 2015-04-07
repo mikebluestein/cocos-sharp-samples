@@ -106,9 +106,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.WatchApp.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="InterfaceController.cs" />
-    <Compile Include="InterfaceController.designer.cs">
-      <DependentUpon>InterfaceController.cs</DependentUpon>
-    </Compile>
+    <BundleResource Include="Resources\Up%402x.png" />
+    <BundleResource Include="Resources\Left%402x.png" />
+    <BundleResource Include="Resources\Right%402x.png" />
+    <BundleResource Include="Resources\Down%402x.png" />
   </ItemGroup>
 </Project>

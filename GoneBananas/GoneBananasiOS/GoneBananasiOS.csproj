@@ -25,6 +25,9 @@
     <ConsolePause>false</ConsolePause>
     <MtouchDebug>true</MtouchDebug>
     <AssemblyName>GoneBananasiOS</AssemblyName>
+    <CodesignProvision>4cef4abc-d202-4fdb-937b-bf3e9f15e2dc</CodesignProvision>
+    <CodesignKey>iPhone Developer: Michael Bluestein (P4MRTUSNBU)</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -41,16 +44,21 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhone\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG;IOS;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchDebug>true</MtouchDebug>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Michael Bluestein (P4MRTUSNBU)</CodesignKey>
     <AssemblyName>GoneBananas</AssemblyName>
     <IpaPackageName>
     </IpaPackageName>
     <MtouchArch>ARMv7</MtouchArch>
+    <CodesignProvision>4cef4abc-d202-4fdb-937b-bf3e9f15e2dc</CodesignProvision>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchI18n>
+    </MtouchI18n>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -62,6 +70,7 @@
     <ConsolePause>false</ConsolePause>
     <AssemblyName>GoneBananas</AssemblyName>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>full</DebugType>
@@ -75,6 +84,7 @@
     <CodesignProvision>Automatic:AdHoc</CodesignProvision>
     <AssemblyName>GoneBananas</AssemblyName>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>full</DebugType>
@@ -87,6 +97,7 @@
     <CodesignProvision>Automatic:AppStore</CodesignProvision>
     <AssemblyName>GoneBananas</AssemblyName>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -124,6 +135,7 @@
     <None Include="Info.plist" />
     <Compile Include="Main.cs" />
     <None Include="packages.config" />
+    <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDelegate.cs" />
@@ -159,5 +171,16 @@
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small-50.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Spotlight-iOS7.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\appstore_1024%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GoneBananasWatch\WatchKitExtension\WatchKitExtension.csproj">
+      <Project>{87F3DB30-6BE0-4756-A222-82F1FCF87B37}</Project>
+      <Name>WatchKitExtension</Name>
+      <IsAppExtension>True</IsAppExtension>
+    </ProjectReference>
+    <ProjectReference Include="..\WormHoleSharp\WormHoleSharp.csproj">
+      <Project>{B34F9D50-11B7-429E-8AE4-BC2AA61F1519}</Project>
+      <Name>WormHoleSharp</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
