@@ -270,7 +270,7 @@ namespace GoneBananas
 				bool hit = banana.BoundingBoxTransformedToParent.IntersectsRect (monkey.BoundingBoxTransformedToParent);
 				if (hit) {
 					hitBananas.Add (banana);
-					CCSimpleAudioEngine.SharedEngine.PlayEffect ("Sounds/tap");
+					CCSimpleAudioEngine.SharedEngine.PlayEffect ("sounds/tap");
 					Explode (banana.Position);
 					banana.RemoveFromParent ();
 				}
