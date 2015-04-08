@@ -16,8 +16,8 @@
     <AndroidApplication>True</AndroidApplication>
     <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
     <AssemblyName>GoneBananasAndroid</AssemblyName>
-    <TargetFrameworkVersion>v4.2</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <TargetFrameworkVersion>v4.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -81,18 +81,18 @@
   <ItemGroup>
     <Folder Include="Assets\Content\" />
     <Folder Include="Assets\Content\fonts\" />
-    <Folder Include="Assets\Content\hd\" />
-    <Folder Include="Assets\Content\Sounds\" />
-    <Folder Include="Assets\Content\hd\animations\" />
+    <Folder Include="Assets\Content\sounds\" />
+    <Folder Include="Assets\Content\images\" />
+    <Folder Include="Assets\Content\images\animations\" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Content\hd\animations\monkey.plist" />
-    <AndroidAsset Include="Assets\Content\hd\animations\monkey.png" />
     <AndroidAsset Include="Assets\Content\fonts\arial-22.xnb" />
-    <AndroidAsset Include="Assets\Content\hd\cloud.png" />
-    <AndroidAsset Include="Assets\Content\hd\grass.png" />
-    <AndroidAsset Include="Assets\Content\hd\balls.png" />
-    <AndroidAsset Include="Assets\Content\Sounds\backgroundMusic.mp3" />
-    <AndroidAsset Include="Assets\Content\Sounds\tap.wav" />
+    <AndroidAsset Include="Assets\Content\sounds\backgroundMusic.mp3" />
+    <AndroidAsset Include="Assets\Content\sounds\tap.wav" />
+    <AndroidAsset Include="Assets\Content\images\animations\monkey.plist" />
+    <AndroidAsset Include="Assets\Content\images\animations\monkey.png" />
+    <AndroidAsset Include="Assets\Content\images\grass.png" />
+    <AndroidAsset Include="Assets\Content\images\balls.png" />
+    <AndroidAsset Include="Assets\Content\images\cloud.xnb" />
   </ItemGroup>
 </Project>

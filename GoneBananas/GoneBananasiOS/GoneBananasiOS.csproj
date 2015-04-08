@@ -127,9 +127,10 @@
     <Folder Include="Resources\" />
     <Folder Include="Content\" />
     <Folder Include="Content\fonts\" />
-    <Folder Include="Content\Sounds\" />
-    <Folder Include="Content\hd\" />
-    <Folder Include="Content\hd\animations\" />
+    <Folder Include="Resources\Images.xcassets\AppIcons.appiconset\" />
+    <Folder Include="Content\images\" />
+    <Folder Include="Content\images\animations\" />
+    <Folder Include="Content\sounds\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -144,33 +145,15 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <BundleResource Include="Resources\Default-568h%402x.png" />
-    <BundleResource Include="Content\Sounds\tap.mp3" />
-    <BundleResource Include="Content\hd\animations\monkey.png" />
-    <BundleResource Include="Content\hd\animations\monkey.plist" />
     <BundleResource Include="Content\fonts\arial-22.xnb" />
-    <BundleResource Include="Content\hd\grass.png" />
-    <BundleResource Include="Content\hd\cloud.png" />
-    <BundleResource Include="Content\hd\balls.png" />
-    <BundleResource Include="Content\Sounds\backgroundMusic.mp3" />
-  </ItemGroup>
-  <ItemGroup>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-60%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small-40%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-72.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-72%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-76.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-iPad-Spotlight-iOS7%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-120.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Spotlight-iOS7%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small-50.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Spotlight-iOS7.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\appstore_1024%402x.png" />
+    <BundleResource Include="Resources\splash.png" />
+    <BundleResource Include="Content\images\animations\monkey.png" />
+    <BundleResource Include="Content\images\animations\monkey.plist" />
+    <BundleResource Include="Content\images\grass.png" />
+    <BundleResource Include="Content\images\cloud.png" />
+    <BundleResource Include="Content\images\balls.png" />
+    <BundleResource Include="Content\sounds\tap.mp3" />
+    <BundleResource Include="Content\sounds\backgroundMusic.mp3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoneBananasWatch\WatchKitExtension\WatchKitExtension.csproj">
@@ -182,5 +165,27 @@
       <Project>{B34F9D50-11B7-429E-8AE4-BC2AA61F1519}</Project>
       <Name>WormHoleSharp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-40.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-40%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-40%403x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-60%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-60%403x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-72.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-72%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-76.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-76%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small-50.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small-50%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small%403x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
   </ItemGroup>
 </Project>

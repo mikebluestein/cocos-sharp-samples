@@ -1,46 +1,50 @@
 using CocosDenshion;
 using CocosSharp;
+using System;
 
 namespace GoneBananas
 {
-    public class GoneBananasApplicationDelegate : CCApplicationDelegate
-    {
+	public class GoneBananasApplicationDelegate : CCApplicationDelegate
+	{
 
-        public override void ApplicationDidFinishLaunching (CCApplication application, CCWindow mainWindow)
-        {
+		public override void ApplicationDidFinishLaunching (CCApplication application, CCWindow mainWindow)
+		{
 #if DEBUG
 			mainWindow.DisplayStats = true;
+			mainWindow.StatsScale = 5;
 #endif
 
-            application.PreferMultiSampling = false;
-            application.ContentRootDirectory = "Content";
+			application.PreferMultiSampling = false;
+			application.ContentRootDirectory = "Content";
 
-            application.ContentSearchPaths.Add("hd");
+			CCSize winSize = mainWindow.WindowSizeInPixels;
 
-            CCSimpleAudioEngine.SharedEngine.PreloadEffect ("Sounds/tap");
-            CCSimpleAudioEngine.SharedEngine.PreloadBackgroundMusic ("Sounds/backgroundMusic");
-            CCSize winSize = mainWindow.WindowSizeInPixels;
-            CCScene.SetDefaultDesignResolution(winSize.Width, winSize.Height, CCSceneResolutionPolicy.ExactFit);
+			application.ContentSearchPaths.Add ("images");
 
-            CCScene scene = GameStartLayer.GameStartLayerScene(mainWindow);
-            mainWindow.RunWithScene (scene);
-        }
+			CCSimpleAudioEngine.SharedEngine.PreloadEffect ("sounds/tap");
+			CCSimpleAudioEngine.SharedEngine.PreloadBackgroundMusic ("sounds/backgroundMusic");
+            
+			CCScene.SetDefaultDesignResolution (winSize.Width, winSize.Height, CCSceneResolutionPolicy.ExactFit);
 
-        public override void ApplicationDidEnterBackground (CCApplication application)
-        {
-            // stop all of the animation actions that are running.
-            application.Paused = true;
+			CCScene scene = GameStartLayer.GameStartLayerScene (mainWindow);
+			mainWindow.RunWithScene (scene);
+		}
 
-            // if you use SimpleAudioEngine, your music must be paused
-            CCSimpleAudioEngine.SharedEngine.PauseBackgroundMusic ();
-        }
+		public override void ApplicationDidEnterBackground (CCApplication application)
+		{
+			// stop all of the animation actions that are running.
+			application.Paused = true;
 
-        public override void ApplicationWillEnterForeground (CCApplication application)
-        {
-            application.Paused = false;
+			// if you use SimpleAudioEngine, your music must be paused
+			CCSimpleAudioEngine.SharedEngine.PauseBackgroundMusic ();
+		}
 
-            // if you use SimpleAudioEngine, your background music track must resume here. 
-            CCSimpleAudioEngine.SharedEngine.ResumeBackgroundMusic ();
-        }
-    }
+		public override void ApplicationWillEnterForeground (CCApplication application)
+		{
+			application.Paused = false;
+
+			// if you use SimpleAudioEngine, your background music track must resume here. 
+			CCSimpleAudioEngine.SharedEngine.ResumeBackgroundMusic ();
+		}
+	}
 }

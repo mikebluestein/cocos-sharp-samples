@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Resources\Media.xcassets\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -110,5 +111,16 @@
     <BundleResource Include="Resources\Left%402x.png" />
     <BundleResource Include="Resources\Right%402x.png" />
     <BundleResource Include="Resources\Down%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\Icon38mm%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\Icon42mm%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\IconLauncher%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\IconQuickLook38mm%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\IconQuickLook42mm%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\IconSettings%402x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\IconSettings%403x.png" />
+    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\LongLook%402x.png" />
   </ItemGroup>
 </Project>

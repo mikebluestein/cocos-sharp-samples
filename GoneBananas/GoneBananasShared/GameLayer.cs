@@ -16,13 +16,15 @@ namespace GoneBananas
 {
 	public class GameLayer : CCLayerColor
 	{
-		const float MONKEY_SPEED = 350.0f;
-		const float GAME_DURATION = 60.0f;
 		// game ends after 60 seconds or when the monkey hits a ball, whichever comes first
+		const float GAME_DURATION = 60.0f; 
 		const int MAX_NUM_BALLS = 10;
 
 		// point to meter ratio for physics
 		const int PTM_RATIO = 32;
+
+		//speed factor will be adjusted based on screen size;
+		float monkeySpeed = 350.0f;
 
 		float elapsedTime;
 		CCSprite monkey;
@@ -58,11 +60,23 @@ namespace GoneBananas
 		// balls sprite batch
 		CCSpriteBatchNode ballsBatch;
 		CCTexture2D ballTexture;
+
 		#if IOS
 		Wormhole wormhole;
 		#endif
-		public GameLayer ()
+
+		float contentScaleFactorY;
+		float contentScaleFactorX;
+
+		public GameLayer (float scaleX, float scaleY)
 		{
+			contentScaleFactorY = scaleY;
+			contentScaleFactorX = scaleX;
+
+			var speedFactor =  contentScaleFactorX < contentScaleFactorY ? contentScaleFactorX : contentScaleFactorY;
+
+			monkeySpeed *= (float)speedFactor;
+
 			var touchListener = new CCEventListenerTouchAllAtOnce ();
 			touchListener.OnTouchesEnded = OnTouchesEnded;
 			       
@@ -84,7 +98,7 @@ namespace GoneBananas
 
 			StartScheduling ();
 
-			CCSimpleAudioEngine.SharedEngine.PlayBackgroundMusic ("Sounds/backgroundMusic", true);
+			CCSimpleAudioEngine.SharedEngine.PlayBackgroundMusic ("sounds/backgroundMusic", true);
 
 #if IOS
 			wormhole = new Wormhole ("group.com.mikebluestein.GoneBananas", "messageDir");
@@ -112,7 +126,7 @@ namespace GoneBananas
 					break;
 				}
 			
-				var dt = 25.0f / MONKEY_SPEED;
+				var dt = 25.0f / monkeySpeed;
 
 				var moveMonkey = new CCMoveBy (dt, ds);
 
@@ -153,6 +167,8 @@ namespace GoneBananas
 		void AddGrass ()
 		{
 			grass = new CCSprite ("grass");
+			grass.ScaleY = contentScaleFactorX;
+			grass.ScaleX = contentScaleFactorY;
 			AddChild (grass);
 		}
 
@@ -176,7 +192,11 @@ namespace GoneBananas
 			walkAnim = new CCAnimation (animationFrames, 0.1f);
 			walkRepeat = new CCRepeatForever (new CCAnimate (walkAnim));
 			monkey = new CCSprite (animationFrames.First ()) { Name = "Monkey" };
-			monkey.Scale = 0.25f;
+
+			var baselineScale = 0.25f; //monkey image actual size is 4x what looks good at baseline, so scale by 0.25 for baseline
+			var contentScale = contentScaleFactorX > contentScaleFactorY ? contentScaleFactorX : contentScaleFactorY; //use the larger scale if they are not equal
+
+			monkey.Scale = baselineScale * contentScale;
 
 			AddChild (monkey);
 		}
@@ -188,7 +208,11 @@ namespace GoneBananas
 
 			var p = GetRandomPosition (banana.ContentSize);
 			banana.Position = p;
-			banana.Scale = 0.5f;
+
+			var baselineScale = 0.5f;
+			var contentScale = contentScaleFactorX > contentScaleFactorY ? contentScaleFactorX : contentScaleFactorY;
+
+			banana.Scale = baselineScale * contentScale;
 
 			AddChild (banana);
 
@@ -295,7 +319,7 @@ namespace GoneBananas
 			location = WorldToScreenspace (location);  //Layer.WorldToScreenspace(location); 
 			float ds = CCPoint.Distance (monkey.Position, location);
 
-			var dt = ds / MONKEY_SPEED;
+			var dt = ds / monkeySpeed;
 
 			var moveMonkey = new CCMoveTo (dt, location);
 
@@ -350,16 +374,19 @@ namespace GoneBananas
 
 		void AddBall ()
 		{
+			var contentScale = contentScaleFactorX < contentScaleFactorY ? contentScaleFactorX : contentScaleFactorY; //use the smaller scale if they are not equal
+
 			if (ballsBatch.ChildrenCount < MAX_NUM_BALLS) {
 				int idx = (CCRandom.Float_0_1 () > .5 ? 0 : 1);
 				int idy = (CCRandom.Float_0_1 () > .5 ? 0 : 1);
-				var sprite = new CCPhysicsSprite (ballTexture, new CCRect (32 * idx, 32 * idy, 32, 32), PTM_RATIO);
+				var ballSprite = new CCPhysicsSprite (ballTexture, new CCRect (32 * idx, 32 * idy, 32, 32), PTM_RATIO);
+				ballSprite.Scale = contentScale;
 
-				ballsBatch.AddChild (sprite);
+				ballsBatch.AddChild (ballSprite);
 
-				CCPoint p = GetRandomPosition (sprite.ContentSize);
+				CCPoint p = GetRandomPosition (ballSprite.ContentSize);
 
-				sprite.Position = new CCPoint (p.X, p.Y);
+				ballSprite.Position = new CCPoint (p.X, p.Y);
 
 				var def = new b2BodyDef ();
 				def.position = new b2Vec2 (p.X / PTM_RATIO, p.Y / PTM_RATIO);
@@ -368,7 +395,7 @@ namespace GoneBananas
 				b2Body body = world.CreateBody (def);
 
 				var circle = new b2CircleShape ();
-				circle.Radius = 0.5f;
+				circle.Radius = 0.5f * contentScale;
 
 				var fd = new b2FixtureDef ();
 				fd.shape = circle;
@@ -377,7 +404,7 @@ namespace GoneBananas
 				fd.friction = 0f;
 				body.CreateFixture (fd);
 
-				sprite.PhysicsBody = body;
+				ballSprite.PhysicsBody = body;
 			}
 		}
 
@@ -391,8 +418,14 @@ namespace GoneBananas
 		public static CCScene GameScene (CCWindow mainWindow)
 		{
 			var scene = new CCScene (mainWindow);
-			var layer = new GameLayer ();
-			
+
+			float w_baseline = 640.0f;
+			float h_baseline = 1136.0f;
+
+			CCSize winSize = mainWindow.WindowSizeInPixels;
+
+			var layer = new GameLayer (winSize.Width / w_baseline, winSize.Height / h_baseline);
+
 			scene.AddChild (layer);
 
 			return scene;
