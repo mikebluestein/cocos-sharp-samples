@@ -167,8 +167,8 @@ namespace GoneBananas
 		void AddGrass ()
 		{
 			grass = new CCSprite ("grass");
-			grass.ScaleY = contentScaleFactorX;
-			grass.ScaleX = contentScaleFactorY;
+			grass.ScaleY = contentScaleFactorY;
+			grass.ScaleX = contentScaleFactorX;
 			AddChild (grass);
 		}
 
@@ -251,9 +251,9 @@ namespace GoneBananas
 			float yRatio2 = 0.15f;
 			float yRatio3 = 0.5f;
 
-			parallaxClouds.AddChild (cloud1, 0, new CCPoint (1.0f, yRatio1), new CCPoint (100, -100 + h - (h * yRatio1)));
-			parallaxClouds.AddChild (cloud2, 0, new CCPoint (1.0f, yRatio2), new CCPoint (250, -200 + h - (h * yRatio2)));
-			parallaxClouds.AddChild (cloud3, 0, new CCPoint (1.0f, yRatio3), new CCPoint (400, -150 + h - (h * yRatio3)));
+			parallaxClouds.AddChild (cloud1, 0, new CCPoint (1.0f, yRatio1), new CCPoint (100 * contentScaleFactorX, -100 + h - (h * yRatio1)));
+			parallaxClouds.AddChild (cloud2, 0, new CCPoint (1.0f, yRatio2), new CCPoint (250 * contentScaleFactorX, -200 + h - (h * yRatio2)));
+			parallaxClouds.AddChild (cloud3, 0, new CCPoint (1.0f, yRatio3), new CCPoint (400 * contentScaleFactorX, -150 + h - (h * yRatio3)));
 		}
 
 		void MoveClouds (float dy)
