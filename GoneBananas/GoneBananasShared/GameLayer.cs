@@ -17,7 +17,7 @@ namespace GoneBananas
 	public class GameLayer : CCLayerColor
 	{
 		// game ends after 60 seconds or when the monkey hits a ball, whichever comes first
-		const float GAME_DURATION = 60.0f; 
+		const float GAME_DURATION = 60.0f;
 		const int MAX_NUM_BALLS = 10;
 
 		// point to meter ratio for physics
@@ -73,7 +73,7 @@ namespace GoneBananas
 			contentScaleFactorY = scaleY;
 			contentScaleFactorX = scaleX;
 
-			var speedFactor =  contentScaleFactorX < contentScaleFactorY ? contentScaleFactorX : contentScaleFactorY;
+			var speedFactor = contentScaleFactorX < contentScaleFactorY ? contentScaleFactorX : contentScaleFactorY;
 
 			monkeySpeed *= (float)speedFactor;
 
