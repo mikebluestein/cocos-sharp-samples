@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using CocosSharp;
 
 namespace GoneBananas
@@ -8,20 +7,21 @@ namespace GoneBananas
 	{
 
 		string scoreMessage = string.Empty;
+		float sx, sy;
 
-		public GameOverLayer (int score)
+		public GameOverLayer (int score, float sx, float sy)
 		{
+			this.sx = sx;
+			this.sy = sy;
 
 			var touchListener = new CCEventListenerTouchAllAtOnce ();
 			touchListener.OnTouchesEnded = (touches, ccevent) => Window.DefaultDirector.ReplaceScene (GameLayer.GameScene (Window));
 
 			AddEventListener (touchListener, this);
 
-			scoreMessage = String.Format ("Game Over. You collected {0} bananas!", score);
+			scoreMessage = String.Format ("Game Over.\r\nYou collected {0} bananas!", score);
 
-			Color = new CCColor3B (CCColor4B.Black);
-
-			Opacity = 255;
+			Color = CCColor3B.Black;
 		}
 
 		public void AddMonkey ()
@@ -30,8 +30,8 @@ namespace GoneBananas
 			var frame = spriteSheet.Frames.Find ((x) => x.TextureFilename.StartsWith ("frame"));
            
 			var monkey = new CCSprite (frame) {
-				Position = new CCPoint (VisibleBoundsWorldspace.Size.Center.X + 20, VisibleBoundsWorldspace.Size.Center.Y + 300),
-				Scale = 0.5f
+				Position = new CCPoint (VisibleBoundsWorldspace.Size.Center.X + 20, VisibleBoundsWorldspace.Size.Center.Y + 300 * sy),
+				Scale = 0.5f * (sx > sy ? sx : sy),
 			};
 
 			AddChild (monkey);
@@ -43,9 +43,7 @@ namespace GoneBananas
 
 			Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
 
-			//TODO: Scale font sizes
-
-			var scoreLabel = new CCLabel (scoreMessage, "arial", 22) {
+			var scoreLabel = new CCLabel (scoreMessage, "Helvetica Neue Bold", 32 * (sx > sy ? sx : sy)) {
 				Position = new CCPoint (VisibleBoundsWorldspace.Size.Center.X, VisibleBoundsWorldspace.Size.Center.Y + 50),
 				Color = new CCColor3B (CCColor4B.Yellow),
 				HorizontalAlignment = CCTextAlignment.Center,
@@ -55,8 +53,8 @@ namespace GoneBananas
 
 			AddChild (scoreLabel);
 
-			var playAgainLabel = new CCLabel ("Tap to Play Again", "arial", 22) {
-				Position = VisibleBoundsWorldspace.Size.Center,
+			var playAgainLabel = new CCLabel ("Tap to Play Again", "Helvetica Neue Bold", 32 * (sx > sy ? sx : sy)) {
+				Position = new CCPoint (VisibleBoundsWorldspace.Size.Center.X, VisibleBoundsWorldspace.Size.Center.Y - 50 * sy),
 				Color = new CCColor3B (CCColor4B.Green),
 				HorizontalAlignment = CCTextAlignment.Center,
 				VerticalAlignment = CCVerticalTextAlignment.Center,
@@ -71,7 +69,12 @@ namespace GoneBananas
 		public static CCScene SceneWithScore (CCWindow mainWindow, int score)
 		{
 			var scene = new CCScene (mainWindow);
-			var layer = new GameOverLayer (score);
+
+			var winSize = mainWindow.WindowSizeInPixels;
+			const float wbase = 640.0f;
+			const float hbase = 1136.0f;
+
+			var layer = new GameOverLayer (score, winSize.Width / wbase, winSize.Height / hbase);
 
 			scene.AddChild (layer);
 
