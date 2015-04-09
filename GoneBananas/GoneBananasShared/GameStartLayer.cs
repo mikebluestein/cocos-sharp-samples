@@ -29,7 +29,7 @@ namespace GoneBananas
 
 			Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.NoBorder;
 
-			var label = new CCLabel ("Tap to Go Bananas!", "Helvetica Neue Bold", 32 * (sx > sy ? sx : sy)) {
+			var label = new CCLabel ("Tap to Go Bananas!", "HelveticaNeue-Bold", 32 * (sx > sy ? sx : sy)) {
 				Position = VisibleBoundsWorldspace.Center,
 				Color = new CCColor3B (new CCColor4B (0.208f, 0.435f, 0.588f, 1.0f)),
 				HorizontalAlignment = CCTextAlignment.Center,

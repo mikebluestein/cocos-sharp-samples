@@ -43,7 +43,7 @@ namespace GoneBananas
 
 			Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
 
-			var scoreLabel = new CCLabel (scoreMessage, "Helvetica Neue Bold", 32 * (sx > sy ? sx : sy)) {
+			var scoreLabel = new CCLabel (scoreMessage, "HelveticaNeue-Bold", 32 * (sx > sy ? sx : sy)) {
 				Position = new CCPoint (VisibleBoundsWorldspace.Size.Center.X, VisibleBoundsWorldspace.Size.Center.Y + 50),
 				Color = new CCColor3B (CCColor4B.Yellow),
 				HorizontalAlignment = CCTextAlignment.Center,
@@ -53,7 +53,7 @@ namespace GoneBananas
 
 			AddChild (scoreLabel);
 
-			var playAgainLabel = new CCLabel ("Tap to Play Again", "Helvetica Neue Bold", 32 * (sx > sy ? sx : sy)) {
+			var playAgainLabel = new CCLabel ("Tap to Play Again", "HelveticaNeue-Bold", 32 * (sx > sy ? sx : sy)) {
 				Position = new CCPoint (VisibleBoundsWorldspace.Size.Center.X, VisibleBoundsWorldspace.Size.Center.Y - 50 * sy),
 				Color = new CCColor3B (CCColor4B.Green),
 				HorizontalAlignment = CCTextAlignment.Center,
