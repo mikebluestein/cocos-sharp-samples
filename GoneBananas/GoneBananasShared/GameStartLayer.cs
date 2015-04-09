@@ -29,9 +29,9 @@ namespace GoneBananas
 
 			Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.NoBorder;
 
-			var label = new CCLabel ("Tap Screen to Go Bananas!", "arial", 22) { //TODO: Scale font size (64 looks good on iPhone 6+)
+			var label = new CCLabel ("Tap to Go Bananas!", "Helvetica Neue Bold", 32 * (sx > sy ? sx : sy)) {
 				Position = VisibleBoundsWorldspace.Center,
-				Color = CCColor3B.Black,
+				Color = new CCColor3B (new CCColor4B (0.208f, 0.435f, 0.588f, 1.0f)),
 				HorizontalAlignment = CCTextAlignment.Center,
 				VerticalAlignment = CCVerticalTextAlignment.Center,
 				AnchorPoint = CCPoint.AnchorMiddle
