@@ -126,7 +126,6 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Content\" />
-    <Folder Include="Content\fonts\" />
     <Folder Include="Resources\Images.xcassets\AppIcons.appiconset\" />
     <Folder Include="Content\images\" />
     <Folder Include="Content\images\animations\" />
@@ -145,7 +144,6 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <BundleResource Include="Content\fonts\arial-22.xnb" />
     <BundleResource Include="Resources\splash.png" />
     <BundleResource Include="Content\images\animations\monkey.png" />
     <BundleResource Include="Content\images\animations\monkey.plist" />

@@ -74,19 +74,24 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
-    <AndroidResource Include="Resources\drawable\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_launcher.png" />
   </ItemGroup>
   <Import Project="..\GoneBananasShared\GoneBananasShared.projitems" Label="Shared" Condition="Exists('..\GoneBananasShared\GoneBananasShared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Assets\Content\" />
-    <Folder Include="Assets\Content\fonts\" />
     <Folder Include="Assets\Content\sounds\" />
     <Folder Include="Assets\Content\images\" />
     <Folder Include="Assets\Content\images\animations\" />
+    <Folder Include="Resources\drawable-mdpi\" />
+    <Folder Include="Resources\drawable-xhdpi\" />
+    <Folder Include="Resources\drawable-xxhdpi\" />
+    <Folder Include="Resources\drawable-hdpi\" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Content\fonts\arial-22.xnb" />
     <AndroidAsset Include="Assets\Content\sounds\backgroundMusic.mp3" />
     <AndroidAsset Include="Assets\Content\sounds\tap.wav" />
     <AndroidAsset Include="Assets\Content\images\animations\monkey.plist" />
