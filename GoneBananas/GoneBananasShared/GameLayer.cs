@@ -283,7 +283,7 @@ namespace GoneBananas
 			int ballHitCount = ballsBatch.Children.Count (ball => ball.BoundingBoxTransformedToParent.IntersectsRect (monkey.BoundingBoxTransformedToParent));
 
 			if (ballHitCount > 0) {
-//                EndGame ();
+                EndGame ();
 			}
 		}
 
@@ -298,12 +298,23 @@ namespace GoneBananas
 			Director.ReplaceScene (transitionToGameOver);
 		}
 
+		CCParticleSystemQuad explosion;
+
+		void InitExplosionParticles ()
+		{
+			//BUG: the texture used in the particle system doesn't look correct on Android (probably due to premultiplied setting)
+			explosion = new CCParticleSystemQuad ("ExplodingBanana.plist");
+			explosion.AutoRemoveOnFinish = false;
+			explosion.StopSystem ();
+			explosion.Visible = false;
+			AddChild (explosion);
+		}
+
 		void Explode (CCPoint pt)
 		{
-			var explosion = new CCParticleExplosion (pt); //TODO: manage "better" for performance when "many" particles
-			explosion.TotalParticles = 10;
-			explosion.AutoRemoveOnFinish = true;
-			AddChild (explosion);
+			explosion.Visible = true;
+			explosion.Position = pt;
+			explosion.ResetSystem ();
 		}
 
 		bool ShouldEndGame ()
@@ -346,6 +357,8 @@ namespace GoneBananas
 			circleNode.Position = sun.Position;
 
 			AddClouds ();
+
+			InitExplosionParticles ();
 		}
 
 		void InitPhysics ()

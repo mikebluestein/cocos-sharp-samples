@@ -90,6 +90,7 @@
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-hdpi\" />
+    <Folder Include="Assets\Content\particles\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Content\sounds\backgroundMusic.mp3" />
@@ -99,5 +100,6 @@
     <AndroidAsset Include="Assets\Content\images\grass.png" />
     <AndroidAsset Include="Assets\Content\images\balls.png" />
     <AndroidAsset Include="Assets\Content\images\cloud.xnb" />
+    <AndroidAsset Include="Assets\Content\particles\ExplodingBanana.plist" />
   </ItemGroup>
 </Project>

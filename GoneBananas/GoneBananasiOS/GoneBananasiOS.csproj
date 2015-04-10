@@ -130,6 +130,7 @@
     <Folder Include="Content\images\" />
     <Folder Include="Content\images\animations\" />
     <Folder Include="Content\sounds\" />
+    <Folder Include="Content\particles\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -152,6 +153,7 @@
     <BundleResource Include="Content\images\balls.png" />
     <BundleResource Include="Content\sounds\tap.mp3" />
     <BundleResource Include="Content\sounds\backgroundMusic.mp3" />
+    <BundleResource Include="Content\particles\ExplodingBanana.plist" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoneBananasWatch\WatchKitExtension\WatchKitExtension.csproj">

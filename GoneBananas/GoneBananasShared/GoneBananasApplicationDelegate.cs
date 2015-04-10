@@ -16,6 +16,7 @@ namespace GoneBananas
 
 			application.PreferMultiSampling = false;
 			application.ContentRootDirectory = "Content";
+			application.ContentSearchPaths.Add ("particles");
 
 			CCSize winSize = mainWindow.WindowSizeInPixels;
 
