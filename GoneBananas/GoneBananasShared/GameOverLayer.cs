@@ -22,6 +22,7 @@ namespace GoneBananas
 			scoreMessage = String.Format ("Game Over.\r\nYou collected {0} bananas!", score);
 
 			Color = CCColor3B.Black;
+			Opacity = 255;
 		}
 
 		public void AddMonkey ()
