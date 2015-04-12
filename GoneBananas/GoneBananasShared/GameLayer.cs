@@ -153,7 +153,7 @@ namespace GoneBananas
 				world.Step (t, 8, 1);
 
 				foreach (CCPhysicsSprite sprite in ballsBatch.Children) {
-					if (sprite.Visible && sprite.PhysicsBody.Position.x < 0f || sprite.PhysicsBody.Position.x * PTM_RATIO > ContentSize.Width) { //or should it be Layer.VisibleBoundsWorldspace.Size.Width
+					if (sprite.Visible && sprite.PhysicsBody.Position.x < 0f || sprite.PhysicsBody.Position.x * PTM_RATIO > ContentSize.Width) {
 						world.DestroyBody (sprite.PhysicsBody);
 						sprite.Visible = false;
 						sprite.RemoveFromParent ();
@@ -327,7 +327,7 @@ namespace GoneBananas
 			monkey.StopAllActions ();
 
 			var location = touches [0].LocationOnScreen;
-			location = WorldToScreenspace (location);  //Layer.WorldToScreenspace(location); 
+			location = WorldToScreenspace (location); 
 			float ds = CCPoint.Distance (monkey.Position, location);
 
 			var dt = ds / monkeySpeed;
@@ -352,7 +352,7 @@ namespace GoneBananas
 			monkey.Position = VisibleBoundsWorldspace.Center;
 
 			var b = VisibleBoundsWorldspace;
-			sun.Position = b.UpperRight.Offset (-100, -100); //BUG: doesn't appear in visible area on Nexus 7 device
+			sun.Position = b.UpperRight.Offset (-100, -100);
 
 			circleNode.Position = sun.Position;
 
