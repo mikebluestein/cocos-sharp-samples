@@ -85,8 +85,11 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>Automatic:AppStore</CodesignProvision>
-    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignProvision>4d6384b5-04eb-42a6-b127-3def304778bf</CodesignProvision>
+    <CodesignKey>iPhone Distribution: Michael Bluestein</CodesignKey>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchI18n>
+    </MtouchI18n>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -96,7 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="Resources\Media.xcassets\" />
+    <Folder Include="Resources\Images.xcassets\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -113,14 +116,14 @@
     <BundleResource Include="Resources\Down%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\Contents.json" />
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\Icon38mm%402x.png" />
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\Icon42mm%402x.png" />
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\IconLauncher%402x.png" />
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\IconQuickLook38mm%402x.png" />
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\IconQuickLook42mm%402x.png" />
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\IconSettings%402x.png" />
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\IconSettings%403x.png" />
-    <ImageAsset Include="Resources\Media.xcassets\AppIcon.appiconset\LongLook%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcon.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcon.appiconset\24x24%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcon.appiconset\27.5x27.5%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcon.appiconset\40x40%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcon.appiconset\86x86%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcon.appiconset\98x98%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcon.appiconset\29x29%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcon.appiconset\29x29%403x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcon.appiconset\44x44%402x.png" />
   </ItemGroup>
 </Project>

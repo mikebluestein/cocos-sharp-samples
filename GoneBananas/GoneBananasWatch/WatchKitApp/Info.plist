@@ -32,6 +32,6 @@
 	<key>WKWatchKitApp</key>
 	<true/>
 	<key>XSAppIconAssets</key>
-	<string>Resources/Media.xcassets/AppIcon.appiconset</string>
+	<string>Resources/Images.xcassets/AppIcon.appiconset</string>
 </dict>
 </plist>
