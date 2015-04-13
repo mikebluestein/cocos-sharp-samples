@@ -109,21 +109,10 @@
     <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GlanceController.cs" />
-    <Compile Include="GlanceController.designer.cs">
-      <DependentUpon>GlanceController.cs</DependentUpon>
-    </Compile>
     <Compile Include="InterfaceController.cs" />
     <Compile Include="InterfaceController.designer.cs">
       <DependentUpon>InterfaceController.cs</DependentUpon>
     </Compile>
-    <Compile Include="NotificationController.cs" />
-    <Compile Include="NotificationController.designer.cs">
-      <DependentUpon>NotificationController.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="PushNotificationPayload.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.AppExtension.CSharp.targets" />
   <ItemGroup>
