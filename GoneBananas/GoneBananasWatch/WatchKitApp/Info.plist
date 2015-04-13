@@ -5,13 +5,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>WatchKitApp</string>
+	<string>GoneBananas</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.mikebluestein.GoneBananas.watchkitapp</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>com.mikebluestein.GoneBananas.watchkitapp</string>
+	<string>GoneBananas</string>
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
@@ -28,8 +28,10 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>com.mikebluestein.GoneBananas.watchkitapp</string>
+	<string>com.mikebluestein.GoneBananas</string>
 	<key>WKWatchKitApp</key>
 	<true/>
+	<key>XSAppIconAssets</key>
+	<string>Resources/Media.xcassets/AppIcon.appiconset</string>
 </dict>
 </plist>

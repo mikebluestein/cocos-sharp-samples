@@ -5,13 +5,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>WatchKitExtension</string>
+	<string>GoneBananasExtension</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.mikebluestein.GoneBananas.watchkitextension</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>com.mikebluestein.GoneBananas.watchkitextension</string>
+	<string>GoneBananas</string>
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
