@@ -100,7 +100,6 @@ namespace GoneBananas
 	
 			AddGrass ();
 			AddSun ();
-			AddMonkey ();
 
 			StartScheduling ();
 
@@ -193,7 +192,7 @@ namespace GoneBananas
 		CCRect CreateAllowableMovementRect (CCSprite grass)
 		{
 			CCRect rect = grass.BoundingBox;
-			float h = (rect.Size.Height - 340.0f) * contentScaleFactorY;
+			float h = (rect.Size.Height - 300.0f) * contentScaleFactorY;
 			float w = rect.Size.Width * contentScaleFactorX;
 			CCRect rect2 = new CCRect (0, 0, w, h);
 
@@ -318,7 +317,7 @@ namespace GoneBananas
 			int ballHitCount = ballsBatch.Children.Count (ball => ball.BoundingBoxTransformedToParent.IntersectsRect (smRect));
 
 			if (ballHitCount > 0) {
-				//EndGame ();
+				EndGame ();
 			}
 		}
 
@@ -387,7 +386,6 @@ namespace GoneBananas
 			Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.NoBorder;
 
 			grass.Position = VisibleBoundsWorldspace.Center;
-			monkey.Position = VisibleBoundsWorldspace.Center;
 
 			var b = VisibleBoundsWorldspace;
 			sun.Position = b.UpperRight.Offset (-100, -100);
@@ -395,6 +393,9 @@ namespace GoneBananas
 			circleNode.Position = sun.Position;
 
 			AddClouds ();
+
+			AddMonkey ();
+			monkey.Position = VisibleBoundsWorldspace.Center;
 
 			InitExplosionParticles ();
 		}
