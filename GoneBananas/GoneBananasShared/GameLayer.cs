@@ -65,6 +65,12 @@ namespace GoneBananas
 		Wormhole wormhole;
 		#endif
 
+		// particle system for exploding banana
+		CCParticleSystemQuad explosion;
+
+		// rect to constrain where monkey can move to
+		CCRect allowableMovementRect;
+
 		float contentScaleFactorY;
 		float contentScaleFactorX;
 
@@ -110,15 +116,25 @@ namespace GoneBananas
 
 				switch (message) {
 				case 1: //right
+
+					float dx0 = allowableMovementRect.Size.Width - monkey.Position.X;
+					delta = dx0 < delta ? dx0 : delta;
 					ds = new CCPoint (delta, 0);
 					break;
 				case 2: //left
+
+					delta =   monkey.Position.X - delta < 0 ? 0 : delta;
 					ds = new CCPoint (-delta, 0);
 					break;
 				case 3: //up
+
+					float dy0 = allowableMovementRect.Size.Height - monkey.Position.Y;
+					delta = dy0 < delta ? dy0 : delta;
 					ds = new CCPoint (0, delta);
 					break;
 				case 4: //down
+					
+					delta =   monkey.Position.Y - delta < 0 ? 0 : delta;
 					ds = new CCPoint (0, -delta);
 					break;
 				default:
@@ -131,7 +147,8 @@ namespace GoneBananas
 				var moveMonkey = new CCMoveBy (dt, ds);
 
 				monkey.RunAction (walkRepeat);
-				monkey.RunActions (moveMonkey, new CCDelayTime (1.0f), walkAnimStop);
+				monkey.RunActions (moveMonkey, new CCDelayTime (0.2f), walkAnimStop);
+
 			});
 #endif
 		}
@@ -167,9 +184,20 @@ namespace GoneBananas
 		void AddGrass ()
 		{
 			grass = new CCSprite ("grass");
+			allowableMovementRect = CreateAllowableMovementRect (grass);
 			grass.ScaleY = contentScaleFactorY;
 			grass.ScaleX = contentScaleFactorX;
 			AddChild (grass);
+		}
+
+		CCRect CreateAllowableMovementRect (CCSprite grass)
+		{
+			CCRect rect = grass.BoundingBox;
+			float h = (rect.Size.Height - 340.0f) * contentScaleFactorY;
+			float w = rect.Size.Width * contentScaleFactorX;
+			CCRect rect2 = new CCRect (0, 0, w, h);
+
+			return rect2;
 		}
 
 		void AddSun ()
@@ -265,9 +293,16 @@ namespace GoneBananas
 
 		void CheckCollision ()
 		{
+			//TODO: split up collision rects for monkey into several smaller rects
+
+			float fudgeFactor = 0.9f; //do the collision check on a slightly smaller rect to avoid hits in alpha space
+
+			var rect = monkey.BoundingBoxTransformedToParent;
+			var smRect = new CCRect (rect.LowerLeft.X, rect.LowerLeft.Y, rect.Size.Width * fudgeFactor, rect.Size.Height * fudgeFactor);
 
 			foreach (var banana in visibleBananas) {
-				bool hit = banana.BoundingBoxTransformedToParent.IntersectsRect (monkey.BoundingBoxTransformedToParent);
+
+				bool hit = banana.BoundingBoxTransformedToParent.IntersectsRect (smRect);
 				if (hit) {
 					hitBananas.Add (banana);
 					CCSimpleAudioEngine.SharedEngine.PlayEffect ("sounds/tap");
@@ -280,10 +315,10 @@ namespace GoneBananas
 				visibleBananas.Remove (banana);
 			}
 
-			int ballHitCount = ballsBatch.Children.Count (ball => ball.BoundingBoxTransformedToParent.IntersectsRect (monkey.BoundingBoxTransformedToParent));
+			int ballHitCount = ballsBatch.Children.Count (ball => ball.BoundingBoxTransformedToParent.IntersectsRect (smRect));
 
 			if (ballHitCount > 0) {
-                EndGame ();
+				//EndGame ();
 			}
 		}
 
@@ -297,8 +332,6 @@ namespace GoneBananas
 
 			Director.ReplaceScene (transitionToGameOver);
 		}
-
-		CCParticleSystemQuad explosion;
 
 		void InitExplosionParticles ()
 		{
@@ -328,8 +361,13 @@ namespace GoneBananas
 
 			var location = touches [0].LocationOnScreen;
 			location = WorldToScreenspace (location); 
-			float ds = CCPoint.Distance (monkey.Position, location);
 
+			if (location.Y >= allowableMovementRect.Size.Height) {
+				location.Y = allowableMovementRect.Size.Height;
+			}
+
+			float ds = CCPoint.Distance (monkey.Position, location);
+	
 			var dt = ds / monkeySpeed;
 
 			var moveMonkey = new CCMoveTo (dt, location);
