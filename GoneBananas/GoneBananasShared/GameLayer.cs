@@ -142,7 +142,7 @@ namespace GoneBananas
 					break;
 				}
 			
-				var dt = 25.0f / monkeySpeed;
+				var dt = delta / monkeySpeed;
 
 				var moveMonkey = new CCMoveBy (dt, ds);
 
