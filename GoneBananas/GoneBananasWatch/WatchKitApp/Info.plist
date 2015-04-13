@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>com.your-company.watchkitapp</string>
+	<string>com.mikebluestein.GoneBananas.watchkitapp</string>
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
@@ -28,7 +28,7 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>com.your-company.watchkitapp</string>
+	<string>com.mikebluestein.GoneBananas.watchkitapp</string>
 	<key>WKWatchKitApp</key>
 	<true/>
 </dict>
