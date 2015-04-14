@@ -32,7 +32,7 @@ namespace GoneBananas
 			var label = new CCLabel ("Tap to Go Bananas!", "HelveticaNeue-Bold", 32 * (sx > sy ? sx : sy)) {
 				Position = VisibleBoundsWorldspace.Center,
 				Color = new CCColor3B (new CCColor4B (0.208f, 0.435f, 0.588f, 1.0f)),
-				HorizontalAlignment = CCTextAlignment.Center,
+				HorizontalAlignment = CCTextAlignment.Left,
 				VerticalAlignment = CCVerticalTextAlignment.Center,
 				AnchorPoint = CCPoint.AnchorMiddle
 			};
