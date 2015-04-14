@@ -48,7 +48,7 @@ namespace GoneBananas
 				Position = new CCPoint (VisibleBoundsWorldspace.Size.Center.X, VisibleBoundsWorldspace.Size.Center.Y + 50),
 				Color = new CCColor3B (CCColor4B.Yellow),
 				HorizontalAlignment = CCTextAlignment.Center,
-				VerticalAlignment = CCVerticalTextAlignment.Center,
+				VerticalAlignment = CCVerticalTextAlignment.Center, //BUG: clipped text as of cocos# 1.4
 				AnchorPoint = CCPoint.AnchorMiddle
 			};
 
