@@ -9,10 +9,10 @@ namespace GoneBananas
 
 		public override void ApplicationDidFinishLaunching (CCApplication application, CCWindow mainWindow)
 		{
-#if DEBUG
-			mainWindow.DisplayStats = true;
-			mainWindow.StatsScale = 5;
-#endif
+//#if DEBUG
+//			mainWindow.DisplayStats = true;
+//			mainWindow.StatsScale = 5;
+//#endif
 
 			application.PreferMultiSampling = false;
 			application.ContentRootDirectory = "Content";

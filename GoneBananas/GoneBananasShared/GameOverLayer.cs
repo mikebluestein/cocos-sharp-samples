@@ -19,7 +19,11 @@ namespace GoneBananas
 
 			AddEventListener (touchListener, this);
 
-			scoreMessage = String.Format ("Game Over.\r\nYou collected {0} bananas!", score);
+			if (score == 1) {
+				scoreMessage = String.Format ("You collected {0} banana", score);
+			} else {
+				scoreMessage = String.Format ("You collected {0} bananas", score);
+			}
 
 			Color = CCColor3B.Black;
 			Opacity = 255;

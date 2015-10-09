@@ -94,6 +94,10 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>5ccbf510-608a-4c26-b6e7-4eb17290fde2</CodesignProvision>
     <CodesignKey>iPhone Distribution: Michael Bluestein</CodesignKey>
+    <MtouchSdkVersion>9.0</MtouchSdkVersion>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchI18n>
+    </MtouchI18n>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

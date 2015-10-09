@@ -90,6 +90,7 @@
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchI18n>
     </MtouchI18n>
+    <MtouchSdkVersion>9.0</MtouchSdkVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

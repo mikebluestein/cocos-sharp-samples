@@ -28,6 +28,10 @@
     <CodesignProvision>4cef4abc-d202-4fdb-937b-bf3e9f15e2dc</CodesignProvision>
     <CodesignKey>iPhone Developer: Michael Bluestein (P4MRTUSNBU)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchI18n>
+    </MtouchI18n>
+    <MtouchArch>i386</MtouchArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <Optimize>true</Optimize>
@@ -101,29 +105,29 @@
     <MtouchI18n>
     </MtouchI18n>
     <DefineConstants>IOS;</DefineConstants>
+    <MtouchSdkVersion>9.0</MtouchSdkVersion>
+    <IpaPackageName>
+    </IpaPackageName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="CocosSharp">
-      <HintPath>..\packages\CocosSharp.iOS.1.4.0.0\lib\Xamarin.iOS10\CocosSharp.dll</HintPath>
+    <Reference Include="box2d">
+      <HintPath>..\packages\CocosSharp.PCL.Shared.1.6.2.0\lib\Xamarin.iOS10\box2d.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\packages\CocosSharp.iOS.1.4.0.0\lib\Xamarin.iOS10\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="CocosSharp">
+      <HintPath>..\packages\CocosSharp.PCL.Shared.1.6.2.0\lib\Xamarin.iOS10\CocosSharp.dll</HintPath>
     </Reference>
     <Reference Include="Lidgren.Network">
-      <HintPath>..\packages\CocosSharp.iOS.1.4.0.0\lib\Xamarin.iOS10\Lidgren.Network.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework.Net">
-      <HintPath>..\packages\CocosSharp.iOS.1.4.0.0\lib\Xamarin.iOS10\MonoGame.Framework.Net.dll</HintPath>
+      <HintPath>..\packages\CocosSharp.PCL.Shared.1.6.2.0\lib\Xamarin.iOS10\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
-      <HintPath>..\packages\CocosSharp.iOS.1.4.0.0\lib\Xamarin.iOS10\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\packages\CocosSharp.PCL.Shared.1.6.2.0\lib\Xamarin.iOS10\MonoGame.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="box2d">
-      <HintPath>..\packages\CocosSharp.iOS.1.4.0.0\lib\Xamarin.iOS10\box2d.dll</HintPath>
+    <Reference Include="MonoGame.Framework.Net">
+      <HintPath>..\packages\CocosSharp.PCL.Shared.1.6.2.0\lib\Xamarin.iOS10\MonoGame.Framework.Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -154,9 +158,9 @@
     <BundleResource Include="Content\images\grass.png" />
     <BundleResource Include="Content\images\cloud.png" />
     <BundleResource Include="Content\images\balls.png" />
-    <BundleResource Include="Content\sounds\tap.mp3" />
     <BundleResource Include="Content\sounds\backgroundMusic.mp3" />
     <BundleResource Include="Content\particles\ExplodingBanana.plist" />
+    <BundleResource Include="Content\sounds\tap.wav" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoneBananasWatch\WatchKitExtension\WatchKitExtension.csproj">

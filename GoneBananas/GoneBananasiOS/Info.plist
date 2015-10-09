@@ -18,7 +18,7 @@
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>8.0</string>
+	<string>8.2</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>CFBundleDisplayName</key>
@@ -26,12 +26,14 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.mikebluestein.GoneBananas</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.4</string>
+	<string>1.0.8</string>
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleName</key>
 	<string>GoneBananas</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.4</string>
+	<string>1.0.8</string>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 </dict>
 </plist>

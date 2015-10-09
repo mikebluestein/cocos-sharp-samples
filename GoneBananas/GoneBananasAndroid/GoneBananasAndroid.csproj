@@ -31,33 +31,38 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>/Users/mike_bluestein/Documents/android_keystore/gonebananas.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>gonebananas</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>gonebananas</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>gonebananas</AndroidSigningKeyPass>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
-    <Reference Include="CocosSharp">
-      <HintPath>..\packages\CocosSharp.Android.1.4.0.0\lib\MonoAndroid10\CocosSharp.dll</HintPath>
+    <Reference Include="box2d">
+      <HintPath>..\packages\CocosSharp.PCL.Shared.1.6.2.0\lib\MonoAndroid10\box2d.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\packages\CocosSharp.Android.1.4.0.0\lib\MonoAndroid10\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="CocosSharp">
+      <HintPath>..\packages\CocosSharp.PCL.Shared.1.6.2.0\lib\MonoAndroid10\CocosSharp.dll</HintPath>
     </Reference>
     <Reference Include="Lidgren.Network">
-      <HintPath>..\packages\CocosSharp.Android.1.4.0.0\lib\MonoAndroid10\Lidgren.Network.dll</HintPath>
+      <HintPath>..\packages\CocosSharp.PCL.Shared.1.6.2.0\lib\MonoAndroid10\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
-      <HintPath>..\packages\CocosSharp.Android.1.4.0.0\lib\MonoAndroid10\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\packages\CocosSharp.PCL.Shared.1.6.2.0\lib\MonoAndroid10\MonoGame.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="box2d">
-      <HintPath>..\packages\CocosSharp.Android.1.4.0.0\lib\MonoAndroid10\box2d.dll</HintPath>
+    <Reference Include="MonoGame.Framework.Net">
+      <HintPath>..\packages\CocosSharp.PCL.Shared.1.6.2.0\lib\MonoAndroid10\MonoGame.Framework.Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

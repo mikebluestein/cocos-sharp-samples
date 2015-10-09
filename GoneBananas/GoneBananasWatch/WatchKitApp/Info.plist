@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.4</string>
+	<string>1.0.8</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.4</string>
+	<string>1.0.8</string>
 	<key>MinimumOSVersion</key>
 	<string>8.2</string>
 	<key>UISupportedInterfaceOrientations</key>
@@ -33,5 +33,9 @@
 	<true/>
 	<key>XSAppIconAssets</key>
 	<string>Resources/Images.xcassets/AppIcon.appiconset</string>
+	<key>UIDeviceFamily</key>
+	<array>
+		<integer>4</integer>
+	</array>
 </dict>
 </plist>
